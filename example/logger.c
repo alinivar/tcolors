@@ -32,7 +32,7 @@ void LogWarn(const char* msg)
 /* Log out some error */
 void LogError(const char* msg)
 {
-    // Set the text color to green
+    // Set the text color to red
     tcolors.TextColor(tcolors.Colors.Red);
 
     // Log out the message
@@ -45,7 +45,7 @@ void LogError(const char* msg)
 /* Log out some fatal error */
 void LogFatal(const char* msg)
 {
-    // Set the text color to green
+    // Set the text color to red
     tcolors.TextColor(tcolors.Colors.Red);
 
     // Enable bold
