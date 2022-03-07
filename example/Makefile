@@ -1,5 +1,5 @@
 
-flags = -g -Wall -m64 -O2 -I../inc
+flags = -g -Wall -m64 -O2 -I../include
 
 tcolors_src = $(wildcard ../src/*.c)
 
