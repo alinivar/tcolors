@@ -1,5 +1,5 @@
 
-ccflags = -g -Wall -m64 -O2 -Iinc
+ccflags = -g -Wall -m64 -O2 -Iinclude
 
 ldflags = -lm
 
