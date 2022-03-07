@@ -1,38 +1,44 @@
 
-#include <stdio.h>
+#include        <stdio.h>
+#include        <stdlib.h>
 
-#include <tcolors.h>
+#include        <tcolors.h>
 
 // tcolors uses ANSI escape codes
 
 // Disable all attributes like italic, bold, underline, etc...
-#define ESCAPE_RESET                    "\x1b[0m"
+#define RESET_ATTRIB                    "\e[0m"
 
-#define BOLD_ENABLE                     "\x1b[1m"
-#define BOLD_DISABLE                    "\x1b[21m"
+// Attributes
 
-#define FAINT_ENABLE                    "\x1b[2m"
-#define FAINT_DISABLE                   "\x1b[22m"
+#define BOLD_ENABLE                     "\e[1m"       // Enable bold
+#define BOLD_DISABLE                    "\e[21m"      // Disable bold
 
-#define ITALIC_ENABLE                   "\x1b[3m"
-#define ITALIC_DISABLE                  "\x1b[23m"
+#define FAINT_ENABLE                    "\e[2m"       // Enable faint
+#define FAINT_DISABLE                   "\e[22m"      // Disable faint
 
-#define UNDERLINE_ENABLE                "\x1b[4m"
-#define UNDERLINE_DISABLE               "\x1b[24m"
+#define ITALIC_ENABLE                   "\e[3m"       // Enable italic
+#define ITALIC_DISABLE                  "\e[23m"      // Disable italic
 
-#define TEXT_COLOR_OFFSET                   30
-#define BACKGROUND_COLOR_OFFSET             40
+#define UNDERLINE_ENABLE                "\e[4m"       // Enable underline
+#define UNDERLINE_DISABLE               "\e[24m"      // Disable underline
+
+// Colors
+
+#define TEXT_COLOR_OFFSET                30          // Escape code offset for text color
+#define BACKGROUND_COLOR_OFFSET          40          // Escape code offset for background color
 
 static void TextColor(int Color)
 {
     // Check if the color offset is correct
+    // 8 is reserved for rgb text color
     if (Color < 0 || Color > 9 || Color == 8)
     {
         
     }
     else
     {
-        printf("\x1b[%im", Color + TEXT_COLOR_OFFSET);
+        printf("\e[%im", Color + TEXT_COLOR_OFFSET);
     }
 }
 
@@ -45,7 +51,7 @@ static void BackgroundColor(int Color)
     }
     else
     {
-        printf("\x1b[%im", Color + BACKGROUND_COLOR_OFFSET);
+        printf("\e[%im", Color + BACKGROUND_COLOR_OFFSET);
     }
 }
 
@@ -69,6 +75,36 @@ static void SetUnderline(int Enable)
     Enable ? printf(UNDERLINE_ENABLE) : printf(UNDERLINE_DISABLE);
 }
 
+static void Clear()
+{
+    #ifdef _WIN32
+
+        int rv = system("cls");
+        if (rv)
+        {
+            perror("tcolors.Clear()");
+        }
+
+    #else
+
+        int rv = system("clear");
+        if (rv)
+        {
+            perror("tcolors.Clear()");
+        }
+
+    #endif
+}
+
+static void Reset()
+{
+    TextColor(9);           // Default Text Color
+    BackgroundColor(9);     // Default Background Color
+    printf(RESET_ATTRIB);   // Reset all attributes like bold, underline, etc...
+}
+
+// namespace definitions
+
 __tcolors_namespace__ const tcolors =
 {
 
@@ -80,6 +116,10 @@ __tcolors_namespace__ const tcolors =
     .SetItalic                      = SetItalic,
     .SetUnderline                   = SetUnderline,
 
+    .Clear                          = Clear,
+    .Reset                          = Reset,
+
+    // Color offsets
     .Colors                         =
     {
         0,                          // Black
