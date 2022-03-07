@@ -4,7 +4,7 @@ ccflags = -g -Wall -m64 -O2 -Iinclude
 ldflags = -lm
 
 src = $(wildcard src/*.c)
-inc = $(wildcard inc/*.h)
+inc = $(wildcard include/*.h)
 
 obj = $(src:.c=.o)
 
