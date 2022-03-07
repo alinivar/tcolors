@@ -13,9 +13,5 @@ all: $(obj)
 %.o: %.c $(inc)
 	gcc -c $(ccflags) $< -o $@
 
-example: $(obj) example/example.c
-	gcc $(ccflags) $(obj) example/example.c $(ldflags) -o example.exe
-	./example.exe
-
 clean:
 	rm $(obj) *.exe
